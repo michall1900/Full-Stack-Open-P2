@@ -1,5 +1,9 @@
 import Course from './Course';
 
+/**
+ * The App component serves as the main entry point for the application.
+ * It renders a list of courses, each containing multiple parts with exercises.
+ */
 const App = () => {
     const courses = [
       {
