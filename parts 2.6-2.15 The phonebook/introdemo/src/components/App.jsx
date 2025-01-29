@@ -1,38 +1,21 @@
-import { useState } from 'react'
-import shortid from 'shortid'
+import { useState } from "react";
+import shortid from "shortid";
+import Form from "./Form";
+import ShowList from "./ShowList";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: 'Arto Hellas', id: shortid.generate()}]) 
-  const [newName, setNewName] = useState('')
-
-
-  const addPerson = (event) => {
-    event.preventDefault();
-
-    setPersons(persons.concat({name: newName, id: shortid.generate()}));
-    setNewName('');
-  }
-
-  const changeName = (event) => {
-    setNewName(event.target.value);
-  }
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", id: shortid.generate() },
+  ]);
+  
   return (
     <div>
       <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input value={newName} onChange={changeName}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Form setPersons={setPersons} persons={persons}/>
       <h2>Numbers</h2>
-      <ul> 
-        {persons.map(({name, id}) => <li key={id}>{name}</li> )}
-      </ul>
+      <ShowList persons={persons}/>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
