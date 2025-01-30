@@ -1,7 +1,7 @@
 import { useState } from "react";
 import shortid from "shortid";
 
-const Form = ({persons, setPersons }) => {
+const PersonForm = ({persons, setPersons, filterPersons, setFilterPersons, isMatchToUsersPattern }) => {
 
   const [newName, setNewName] = useState("");
   const [number, setNumber] = useState("");
@@ -13,7 +13,11 @@ const Form = ({persons, setPersons }) => {
 
 
     if(persons.every((line) => line.name !== newName)){
-        setPersons(persons.concat({ name: newName, id: shortid.generate(), number:number }));
+
+        const newPerson = { name: newName, id: shortid.generate(), number:number }
+        setPersons(persons.concat(newPerson));
+        if(isMatchToUsersPattern(newName))
+            setFilterPersons(filterPersons.concat(newPerson))
         setNewName("");
         setNumber("");
     }
@@ -48,4 +52,4 @@ return (
 );
 };
 
-export default Form;
+export default PersonForm;
