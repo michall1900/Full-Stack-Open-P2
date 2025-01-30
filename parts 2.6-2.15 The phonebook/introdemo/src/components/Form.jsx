@@ -4,45 +4,48 @@ import shortid from "shortid";
 const Form = ({persons, setPersons }) => {
 
   const [newName, setNewName] = useState("");
-  
-  const fixName = () =>{
+  const [number, setNumber] = useState("");
 
-    console.log(newName);
-    
-    let name = newName.trim().replace( /\s+/ ,' ');
-    
-    return (name.split(' ').map(word=> word[0].toUpperCase() + word.slice(1, word.length).toLowerCase()).join(' ')); 
-  }
 
   const addPerson = (event) => {
     
     event.preventDefault();
 
-    const realName = fixName(); 
-    console.log(realName);
 
-    if(persons.every((line) => line.name !== realName)){
-        setPersons(persons.concat({ name: newName, id: shortid.generate() }));
+    if(persons.every((line) => line.name !== newName)){
+        setPersons(persons.concat({ name: newName, id: shortid.generate(), number:number }));
         setNewName("");
+        setNumber("");
     }
     else
-        alert(`${realName} is already added to phonebook`)
+        alert(`${newName} is already added to phonebook`)
   };
 
-  const changeName = (event) => {
-    setNewName(event.target.value);
-  };
+  const onChangeInput = (setter) => (event)=>{
+    setter(event.target.value);
+  }
 
-  return (
+
+return (
     <form onSubmit={addPerson}>
-      <div>
-        name: <input value={newName} onChange={changeName} />
-      </div>
-      <div>
-        <button type="submit">add</button>
-      </div>
+        <div>
+            <label htmlFor="name">Name: <input value={newName} onChange={onChangeInput(setNewName)} 
+                    id="name" pattern="^[A-Z][a-z]*([ ][A-Z][a-z]*)*$" required
+                    title="Enter words starting with an uppercase letter followed by lowercase letters, separated by a space. No numbers or spaces at the start/end."/>
+            </label>
+        </div>
+        <br/>
+        <div>
+            <label htmlFor="number">Number: <input value={number} onChange={onChangeInput(setNumber)} 
+                    id="number" pattern="^\d+(-\d+)*$" title = "Enter a number starting with digits, followed by optional groups of digits each preceded by a hyphen." required/>
+            </label>
+        </div>
+        <br/>
+        <div>
+            <button type="submit">Add</button>
+        </div>
     </form>
-  );
+);
 };
 
 export default Form;

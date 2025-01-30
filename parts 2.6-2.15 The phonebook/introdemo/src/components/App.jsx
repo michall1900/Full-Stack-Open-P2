@@ -5,7 +5,7 @@ import ShowList from "./ShowList";
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: "Arto Hellas", id: shortid.generate() },
+    { name: "Arto Hellas", id: shortid.generate(), number: "39-44-5323523"},
   ]);
   
   return (
