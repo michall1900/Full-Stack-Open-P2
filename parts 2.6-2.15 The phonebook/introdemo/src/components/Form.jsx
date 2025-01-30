@@ -2,14 +2,31 @@ import { useState } from "react";
 import shortid from "shortid";
 
 const Form = ({persons, setPersons }) => {
-    
+
   const [newName, setNewName] = useState("");
+  
+  const fixName = () =>{
+
+    console.log(newName);
+    
+    let name = newName.trim().replace( /\s+/ ,' ');
+    
+    return (name.split(' ').map(word=> word[0].toUpperCase() + word.slice(1, word.length).toLowerCase()).join(' ')); 
+  }
+
   const addPerson = (event) => {
     
     event.preventDefault();
 
-    setPersons(persons.concat({ name: newName, id: shortid.generate() }));
-    setNewName("");
+    const realName = fixName(); 
+    console.log(realName);
+
+    if(persons.every((line) => line.name !== realName)){
+        setPersons(persons.concat({ name: newName, id: shortid.generate() }));
+        setNewName("");
+    }
+    else
+        alert(`${realName} is already added to phonebook`)
   };
 
   const changeName = (event) => {
