@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from 'axios';
+import personsServer from "../services/persons";
 import PersonForm from "./PersonForm";
 import Filter from "./Filter";
 import Persons from "./Persons";
@@ -10,11 +10,15 @@ const App = () => {
   const [userPatternToFilter, setUserPatternToFilter] = useState("");
   
   useEffect(()=>{
-    axios
-    .get("http://localhost:3001/persons")
-    .then( response => {
-      setPersons(response.data);
-      setFilterPersons(response.data);
+    console.log("inside use effect");
+    personsServer.getAllPersons()
+    .then( persons => {
+      setPersons(persons);
+      setFilterPersons(persons);
+    })
+    .catch(error =>{
+      console.log("inside catch");
+      alert(`Can't get persons. Error: ${error}`);  
     })
     
   }, [])

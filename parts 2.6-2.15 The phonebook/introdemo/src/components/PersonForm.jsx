@@ -1,11 +1,26 @@
 import { useState } from "react";
-import shortid from "shortid";
+import personsServer from "../services/persons";
 
 const PersonForm = ({persons, setPersons, filterPersons, setFilterPersons, isMatchToUsersPattern }) => {
 
   const [newName, setNewName] = useState("");
   const [number, setNumber] = useState("");
 
+  const sendPersonToServer = () =>{
+    const newPerson = { name: newName, number:number }
+    personsServer
+    .addNewPerson(newPerson)
+    .then(returnedPerson =>{
+        setPersons(persons.concat(returnedPerson));
+        if(isMatchToUsersPattern(returnedPerson.name))
+            setFilterPersons(filterPersons.concat(returnedPerson))
+        setNewName("");
+        setNumber("");
+    })
+    .catch(error=>{
+        alert(`Fail on adding ${newName} to the list. Error: ${error}`);
+    })
+  }
 
   const addPerson = (event) => {
     
@@ -13,13 +28,7 @@ const PersonForm = ({persons, setPersons, filterPersons, setFilterPersons, isMat
 
 
     if(persons.every((line) => line.name !== newName)){
-
-        const newPerson = { name: newName, id: shortid.generate(), number:number }
-        setPersons(persons.concat(newPerson));
-        if(isMatchToUsersPattern(newName))
-            setFilterPersons(filterPersons.concat(newPerson))
-        setNewName("");
-        setNumber("");
+        sendPersonToServer();
     }
     else
         alert(`${newName} is already added to phonebook`)
