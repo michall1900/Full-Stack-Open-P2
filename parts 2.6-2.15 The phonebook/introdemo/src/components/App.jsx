@@ -7,39 +7,30 @@ import Persons from "./Persons";
 const App = () => {
   const [persons, setPersons] = useState([])
   const [filterPersons, setFilterPersons] = useState(persons);
-  const [userPatternToFilter, setUserPatternToFilter] = useState("");
-  
-  useEffect(()=>{
-    console.log("inside use effect");
+
+  useEffect(() => {
     personsServer.getAllPersons()
-    .then( persons => {
-      setPersons(persons);
-      setFilterPersons(persons);
-    })
-    .catch(error =>{
-      console.log("inside catch");
-      alert(`Can't get persons. Error: ${error}`);  
-    })
-    
+      .then(persons => {
+        setPersons(persons);
+      })
+      .catch(error => {
+        alert(`Can't get persons. Error: ${error}`);
+      })
+
   }, [])
 
-  
 
-  const isMatchToUsersPattern = (personName, pattern=userPatternToFilter) =>{
-    return !!personName.toLowerCase().match(RegExp(pattern.toLowerCase()));
-  }
+  
 
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter persons= {persons} setFilterPersons={setFilterPersons} 
-        userPatternToFilter={userPatternToFilter} setUserPatternToFilter={setUserPatternToFilter} 
-        isMatchToUsersPattern={isMatchToUsersPattern}/>
+      <Filter persons={persons} setFilterPersons={setFilterPersons} />
       <h3>Add a new</h3>
-      <PersonForm setPersons={setPersons} persons={persons} filterPersons={filterPersons} setFilterPersons={setFilterPersons} isMatchToUsersPattern={isMatchToUsersPattern}/>
+      <PersonForm setPersons={setPersons} persons={persons} />
       <h3>Numbers</h3>
-      <Persons persons={filterPersons}/>
+      <Persons filterPersons={filterPersons} persons={persons} setPersons={setPersons} />
     </div>
   );
 };

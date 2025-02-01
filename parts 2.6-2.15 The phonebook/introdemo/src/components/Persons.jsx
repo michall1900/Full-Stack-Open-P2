@@ -1,9 +1,9 @@
 import PersonItem from "./PersonItem";
 
-const Persons = ({ persons }) => (
+const Persons = ({ filterPersons, persons, setPersons }) => (
   <ul>
-    {persons.map((person) => (
-      <PersonItem person={person} key={person.id}/>
+    {filterPersons.map((person) => (
+      <PersonItem person={person} key={person.id} persons={persons} setPersons={setPersons}/>
     ))}
   </ul>
 );
