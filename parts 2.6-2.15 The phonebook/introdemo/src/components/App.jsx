@@ -3,6 +3,7 @@ import personsServer from "../services/persons";
 import PersonForm from "./PersonForm";
 import Filter from "./Filter";
 import Persons from "./Persons";
+import Notification from "./Notification";
 
 /**
  * App component for the Phonebook application.
@@ -47,15 +48,19 @@ const App = () => {
   const [deletedPerson, setDeletedPerson] = useState({});
   const [addedPerson, setAddedPerson] = useState({});
   const [editPerson, setEditPerson] = useState({});
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     personsServer.getAllPersons()
       .then(persons => {
         setPersons(persons);
         setFilterPersons(persons);
+        setIsError(false);
       })
       .catch(error => {
-        alert(`Can't get persons. Error: ${error}`);
+        setMessage(`Can't get persons. Error: ${error}`);
+        setIsError(true);
       })
 
   }, [])
@@ -64,12 +69,15 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification isError={isError} message={message} setMessage={setMessage}/>
       <Filter persons={persons} setFilterPersons={setFilterPersons} filterPersons={filterPersons}
         deletedPerson={deletedPerson} addedPerson={addedPerson} editPerson={editPerson}/>
       <h3>Add a new</h3>
-      <PersonForm setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson ={setEditPerson}/>
+      <PersonForm setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson ={setEditPerson}
+        setIsError={setIsError} setMessage={setMessage}/>
       <h3>Numbers</h3>
-      <Persons filterPersons={filterPersons} persons={persons} setPersons={setPersons} setDeletedPerson={setDeletedPerson} />
+      <Persons filterPersons={filterPersons} persons={persons} setPersons={setPersons} setDeletedPerson={setDeletedPerson}
+        setIsError={setIsError} setMessage={setMessage}/>
     </div>
   );
 };

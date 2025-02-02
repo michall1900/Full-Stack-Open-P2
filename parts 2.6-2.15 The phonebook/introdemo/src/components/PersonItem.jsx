@@ -11,7 +11,7 @@ import personsServer from "../services/persons";
  *
  * @returns {JSX.Element} The rendered component.
  */
-const PersonItem = ({person, setPersons, persons, setDeletedPerson}) =>{
+const PersonItem = ({person, setPersons, persons, setDeletedPerson, setIsError, setMessage}) =>{
 
     const deletePerson = (id, name) => () => {
         if(window.confirm(`Are you sure you want to delete ${name}?`)){
@@ -20,9 +20,12 @@ const PersonItem = ({person, setPersons, persons, setDeletedPerson}) =>{
             .then(deletedPerson =>{
                 setPersons(persons.filter((({id}) => id !== deletedPerson.id)))
                 setDeletedPerson(deletedPerson);
+                setMessage(`${deletePerson.name} deleted successfuly.`)
+                setIsError(false);
             })
             .catch(error =>{
-                alert(`Can't delete ${name}, Error: ${error}`);
+                setMessage(`Can't delete ${name}, Error: ${error}`);
+                setIsError(true);
             })
         }
     }

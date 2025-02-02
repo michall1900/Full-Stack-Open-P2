@@ -34,7 +34,7 @@ import personsServer from "../services/persons";
  * - Must start with digits.
  * - Can contain optional groups of digits each preceded by a hyphen.
  */
-const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson}) => {
+const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage}) => {
 
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
@@ -71,9 +71,12 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson}) => {
             setPersons(persons.concat(returnedPerson));
             setAddedPerson(returnedPerson);
             clearInput();
+            setIsError(false);
+            setMessage(`Successfuly added ${returnedPerson.name}.`)
         })
         .catch(error => {
-            alert(`Fail on adding ${newName} to the list. Error: ${error}`);
+            setMessage(`Fail on adding ${newName} to the list. Error: ${error}`);
+            setIsError(true);
         })
     }
 
@@ -92,9 +95,12 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson}) => {
             setPersons(persons.map(person => (person.id === newRecievedPerson.id) ? newRecievedPerson : person));
             setEditPerson(newRecievedPerson);
             clearInput();
+            setIsError(false);
+            setMessage(`Successfuly changed ${newRecievedPerson.name}'s number to ${newRecievedPerson.number}`);
         })
         .catch(error => {
-            alert (`Failed on update ${newPerson.name} number. Error: ${error}`)
+            setMessage (`Failed on update ${newPerson.name}'s number. Error: ${error}`)
+            setIsError(true);
         });
     }
 
