@@ -10,6 +10,10 @@ import personsServer from "../services/persons";
  * @param {Function} props.setPersons - Function to update the list of persons.
  * @param {Function} props.setAddedPerson - Function to set the recently added person.
  * @param {Function} props.setEditPerson - Function to set the recently edited person.
+ * @param {Function} props.setIsError - Function to set the error state.
+ * @param {Function} props.setMessage - Function to set the message state.
+ * @param {boolean} props.triggerFetch - Boolean to trigger data fetch.
+ * @param {Function} props.setTriggerFetch - Function to set the trigger fetch state.
  *
  * @returns {JSX.Element} The rendered component.
  *
@@ -19,6 +23,10 @@ import personsServer from "../services/persons";
  *   setPersons={setPersons}
  *   setAddedPerson={setAddedPerson}
  *   setEditPerson={setEditPerson}
+ *   setIsError={setIsError}
+ *   setMessage={setMessage}
+ *   triggerFetch={triggerFetch}
+ *   setTriggerFetch={setTriggerFetch}
  * />
  *
  * @description
@@ -34,7 +42,7 @@ import personsServer from "../services/persons";
  * - Must start with digits.
  * - Can contain optional groups of digits each preceded by a hyphen.
  */
-const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage, triggerAll, setTrigerAll}) => {
+const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage, triggerFetch, setTriggerFetch}) => {
 
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
@@ -77,7 +85,7 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
         .catch(error => {
             setMessage(`Fail on adding ${newName} to the list. Error: ${error}`);
             setIsError(true);
-            setTrigerAll(!triggerAll);
+            setTriggerFetch(triggerFetch => !triggerFetch);
         })
     }
 
@@ -102,7 +110,7 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
         .catch(error => {
             setMessage (`Failed on update ${newPerson.name}'s number. Error: ${error}`)
             setIsError(true);
-            setTrigerAll(!triggerAll);
+            setTriggerFetch(triggerFetch => !triggerFetch);
         });
     }
 

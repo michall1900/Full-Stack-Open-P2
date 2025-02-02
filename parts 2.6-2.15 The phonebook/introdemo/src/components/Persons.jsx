@@ -8,17 +8,21 @@ import PersonItem from "./PersonItem";
  * @param {Array} props.persons - The array of all persons.
  * @param {Function} props.setPersons - The function to update the persons state.
  * @param {Function} props.setDeletedPerson - The function to set the deleted person state.
+ * @param {Function} props.setIsError - The function to set the error state.
+ * @param {Function} props.setMessage - The function to set the message state.
+ * @param {boolean} props.triggerFetch - A boolean to trigger some action.
+ * @param {Function} props.setTriggerFetch - The function to set the triggerAll state.
  *
  * @returns {JSX.Element} The rendered component.
  */
-const Persons = ({ filterPersons, persons, setPersons, setDeletedPerson, setIsError, setMessage, triggerAll, setTrigerAll}) => (
+const Persons = ({ filterPersons, persons, setPersons, setDeletedPerson, setIsError, setMessage, triggerFetch, setTriggerFetch}) => (
   <>
     {filterPersons && filterPersons.length ? (
       <ul>
         {filterPersons.map((person) => (
           <PersonItem person={person} key={person.id} persons={persons} setPersons={setPersons} 
             setDeletedPerson={setDeletedPerson} setIsError={setIsError} setMessage={setMessage}
-            setTrigerAll={setTrigerAll} triggerAll={triggerAll}/>
+            setTriggerFetch={setTriggerFetch} triggerFetch={triggerFetch}/>
         ))}
       </ul>
     ) : (

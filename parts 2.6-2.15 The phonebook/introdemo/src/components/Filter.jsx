@@ -12,10 +12,12 @@ import { useEffect, useState } from 'react';
  * @param {Object} editPerson - The person object that has been edited.
  * @param {Object} deletedPerson - The person object that has been deleted.
  * @param {Object} addedPerson - The person object that has been added.
+ * @param {boolean} trigger - A boolean value to trigger the filtering process.
  *
  * @returns {JSX.Element} The rendered Filter component.
  */
-const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedPerson, addedPerson, trigger}) => {
+
+const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedPerson, addedPerson, triggerFilter}) => {
     
     const [userPatternToFilter, setUserPatternToFilter] = useState("");
 
@@ -31,8 +33,9 @@ const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedP
     }
     
     useEffect(() => {
+        console.log("Filtering persons");
         setFilterPersons(persons.filter(({ name }) => isMatchToUsersPattern(name)));
-    }, [userPatternToFilter, trigger]);
+    }, [userPatternToFilter, triggerFilter]);
 
 
     useEffect (()=>{
