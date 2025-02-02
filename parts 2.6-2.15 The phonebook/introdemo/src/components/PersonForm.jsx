@@ -34,7 +34,7 @@ import personsServer from "../services/persons";
  * - Must start with digits.
  * - Can contain optional groups of digits each preceded by a hyphen.
  */
-const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage}) => {
+const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage, triggerAll, setTrigerAll}) => {
 
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
@@ -77,6 +77,7 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
         .catch(error => {
             setMessage(`Fail on adding ${newName} to the list. Error: ${error}`);
             setIsError(true);
+            setTrigerAll(!triggerAll);
         })
     }
 
@@ -101,6 +102,7 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
         .catch(error => {
             setMessage (`Failed on update ${newPerson.name}'s number. Error: ${error}`)
             setIsError(true);
+            setTrigerAll(!triggerAll);
         });
     }
 

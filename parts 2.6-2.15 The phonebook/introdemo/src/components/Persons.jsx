@@ -11,13 +11,14 @@ import PersonItem from "./PersonItem";
  *
  * @returns {JSX.Element} The rendered component.
  */
-const Persons = ({ filterPersons, persons, setPersons, setDeletedPerson, setIsError, setMessage}) => (
+const Persons = ({ filterPersons, persons, setPersons, setDeletedPerson, setIsError, setMessage, triggerAll, setTrigerAll}) => (
   <>
     {filterPersons && filterPersons.length ? (
       <ul>
         {filterPersons.map((person) => (
           <PersonItem person={person} key={person.id} persons={persons} setPersons={setPersons} 
-            setDeletedPerson={setDeletedPerson} setIsError={setIsError} setMessage={setMessage}/>
+            setDeletedPerson={setDeletedPerson} setIsError={setIsError} setMessage={setMessage}
+            setTrigerAll={setTrigerAll} triggerAll={triggerAll}/>
         ))}
       </ul>
     ) : (

@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
  *
  * @returns {JSX.Element} The rendered Filter component.
  */
-const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedPerson, addedPerson}) => {
+const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedPerson, addedPerson, trigger}) => {
     
     const [userPatternToFilter, setUserPatternToFilter] = useState("");
 
@@ -32,7 +32,7 @@ const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedP
     
     useEffect(() => {
         setFilterPersons(persons.filter(({ name }) => isMatchToUsersPattern(name)));
-    }, [userPatternToFilter]);
+    }, [userPatternToFilter, trigger]);
 
 
     useEffect (()=>{

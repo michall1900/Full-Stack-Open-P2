@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import personsServer from "../services/persons";
 import PersonForm from "./PersonForm";
 import Filter from "./Filter";
@@ -44,40 +44,51 @@ import Notification from "./Notification";
  */
 const App = () => {
   const [persons, setPersons] = useState([])
-  const [filterPersons, setFilterPersons] = useState(persons);
+  const [filterPersons, setFilterPersons] = useState([]);
   const [deletedPerson, setDeletedPerson] = useState({});
   const [addedPerson, setAddedPerson] = useState({});
   const [editPerson, setEditPerson] = useState({});
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
+  const [triggerAll, setTrigerAll] = useState(true);
+  const [triggerFilter, setTrigerFilter] = useState(true);
+  const timerId = useRef(null);
 
-  useEffect(() => {
-    personsServer.getAllPersons()
+  const polling = () => {
+    if(timerId.current)
+      clearTimeout(timerId.current);
+
+    personsServer
+      .getAllPersons()
       .then(persons => {
         setPersons(persons);
-        setFilterPersons(persons);
-        setIsError(false);
+        setTrigerFilter(!triggerFilter);
       })
       .catch(error => {
         setMessage(`Can't get persons. Error: ${error}`);
         setIsError(true);
       })
+    
+    timerId.current = setTimeout(polling, 60000);
+  }
 
-  }, [])
+  useEffect(() => {
+    polling();
+  }, [triggerAll])
 
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      <Notification isError={isError} message={message} setMessage={setMessage}/>
+      <h1>Phonebook</h1>
+      <Notification isError={isError} message={message} setMessage={setMessage} />
       <Filter persons={persons} setFilterPersons={setFilterPersons} filterPersons={filterPersons}
-        deletedPerson={deletedPerson} addedPerson={addedPerson} editPerson={editPerson}/>
-      <h3>Add a new</h3>
-      <PersonForm setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson ={setEditPerson}
-        setIsError={setIsError} setMessage={setMessage}/>
-      <h3>Numbers</h3>
+        deletedPerson={deletedPerson} addedPerson={addedPerson} editPerson={editPerson} trigger={triggerFilter}/>
+      <h2>Add a new</h2>
+      <PersonForm setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson={setEditPerson}
+        setIsError={setIsError} setMessage={setMessage} setTrigerAll={setTrigerAll} triggerAll={triggerAll}/>
+      <h2>Numbers</h2>
       <Persons filterPersons={filterPersons} persons={persons} setPersons={setPersons} setDeletedPerson={setDeletedPerson}
-        setIsError={setIsError} setMessage={setMessage}/>
+        setIsError={setIsError} setMessage={setMessage} setTrigerAll={setTrigerAll} triggerAll={triggerAll}/>
     </div>
   );
 };
