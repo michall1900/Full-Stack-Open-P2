@@ -1,7 +1,7 @@
 import { useState } from "react";
 import personsServer from "../services/persons";
 
-const PersonForm = ({ persons, setPersons}) => {
+const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson}) => {
 
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
@@ -16,6 +16,7 @@ const PersonForm = ({ persons, setPersons}) => {
         .addNewPerson(newPerson)
         .then(returnedPerson => {
             setPersons(persons.concat(returnedPerson));
+            setAddedPerson(returnedPerson);
             clearInput();
         })
         .catch(error => {
@@ -29,6 +30,7 @@ const PersonForm = ({ persons, setPersons}) => {
         .editPersonNumber(newPerson)
         .then(newRecievedPerson => {
             setPersons(persons.map(person => (person.id === newRecievedPerson.id) ? newRecievedPerson : person));
+            setEditPerson(newRecievedPerson);
             clearInput();
         })
         .catch(error => {

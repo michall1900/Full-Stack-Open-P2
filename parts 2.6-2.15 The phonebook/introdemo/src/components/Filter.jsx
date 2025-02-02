@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const Filter = ({ persons, setFilterPersons}) => {
+const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedPerson, addedPerson}) => {
     
     const [userPatternToFilter, setUserPatternToFilter] = useState("");
 
@@ -10,7 +10,25 @@ const Filter = ({ persons, setFilterPersons}) => {
     
     useEffect(() => {
         setFilterPersons(persons.filter(({ name }) => isMatchToUsersPattern(name)));
-    }, [userPatternToFilter, persons]);
+    }, [userPatternToFilter]);
+
+
+    useEffect (()=>{
+        if (editPerson.name && isMatchToUsersPattern (editPerson.name))
+            setFilterPersons(filterPersons.map( person => (person.id === editPerson.id)? editPerson: person))
+    },[editPerson])
+
+
+    useEffect (()=>{
+        if(deletedPerson.name && isMatchToUsersPattern (deletedPerson.name))
+            setFilterPersons(filterPersons.filter (person => person.id !== deletedPerson.id));
+    },[deletedPerson])
+
+
+    useEffect (()=>{
+        if (addedPerson.name && isMatchToUsersPattern (addedPerson.name))
+            setFilterPersons(filterPersons.concat(addedPerson));
+    },[addedPerson])
 
     const changeFilter = (event) => {
         if (event.target.value.match(/^[\sa-zA-Z]*$/)) {
