@@ -6,30 +6,47 @@ const PersonForm = ({ persons, setPersons}) => {
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
 
+    const clearInput = () =>{
+        setNewName("");
+        setNumber("");
+    }
     const sendPersonToServer = () => {
-        const newPerson = { name: newName, number: number }
+        const newPerson = { name: newName, number: number}
         personsServer
-            .addNewPerson(newPerson)
-            .then(returnedPerson => {
-                setPersons(persons.concat(returnedPerson));
-                setNewName("");
-                setNumber("");
-            })
-            .catch(error => {
-                alert(`Fail on adding ${newName} to the list. Error: ${error}`);
-            })
+        .addNewPerson(newPerson)
+        .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson));
+            clearInput();
+        })
+        .catch(error => {
+            alert(`Fail on adding ${newName} to the list. Error: ${error}`);
+        })
     }
 
+    const updateNumber = (existPerson) => {
+        const newPerson = {...existPerson, number: number};
+        personsServer
+        .editPersonNumber(newPerson)
+        .then(newRecievedPerson => {
+            setPersons(persons.map(person => (person.id === newRecievedPerson.id) ? newRecievedPerson : person));
+            clearInput();
+        })
+        .catch(error => {
+            alert (`Failed on update ${newPerson.name} number. Error: ${error}`)
+        });
+    }
     const addPerson = (event) => {
 
         event.preventDefault();
 
-
-        if (persons.every((line) => line.name !== newName)) {
+        const existPerson =  persons.find((person) => person.name === newName);
+        if (!existPerson) {
             sendPersonToServer();
         }
-        else
-            alert(`${newName} is already added to phonebook`)
+        else if (window.confirm(`${existPerson.name} is already added to phonebook, resplace the old number with a new one?`)){
+            updateNumber(existPerson);
+        }
+            
     };
 
     const onChangeInput = (setter) => (event) => {
