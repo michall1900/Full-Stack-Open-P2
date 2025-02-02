@@ -1,5 +1,16 @@
 import personsServer from "../services/persons";
 
+/**
+ * Component to render a single person's information with a delete button.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.person - The person object containing name and number.
+ * @param {Function} props.setPersons - Function to update the list of persons.
+ * @param {Array} props.persons - The current list of persons.
+ * @param {Function} props.setDeletedPerson - Function to set the deleted person.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 const PersonItem = ({person, setPersons, persons, setDeletedPerson}) =>{
 
     const deletePerson = (id, name) => () => {
