@@ -33,7 +33,6 @@ const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedP
     }
     
     useEffect(() => {
-        console.log("Filtering persons");
         setFilterPersons(persons.filter(({ name }) => isMatchToUsersPattern(name)));
     }, [userPatternToFilter, triggerFilter]);
 

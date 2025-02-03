@@ -45,7 +45,6 @@ const App = () => {
     personsServer
       .getAllPersons()
       .then(persons => {
-        console.log("Persons fetched successfully");
         setPersons(persons);
         setTrigerFilter(triggerFilter => !triggerFilter);
       })
@@ -54,7 +53,7 @@ const App = () => {
         setIsError(true);
       })
     
-    timerId.current = setTimeout(polling, 5000);
+    timerId.current = setTimeout(polling, 30000);
   }
 
   useEffect(() => {

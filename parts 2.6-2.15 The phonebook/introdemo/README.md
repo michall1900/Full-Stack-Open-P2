@@ -1,5 +1,5 @@
 # Note for the checker:
-When doing exercise 2.17, I thought it would be nicer to fetch the data every minute to ensure it is up-to-date. Also, I believed that when there is a problem updating or deleting a person, the best option is to fetch all the data again to synchronize with the server. Because of this, I implemented polling that executes every minute and in case of an error while updating or deleting a person's data.
+When doing exercise 2.17, I thought it would be nicer to fetch the data every minute to ensure it is up-to-date. Also, I believed that when there is a problem updating or deleting a person, the best option is to fetch all the data again to synchronize with the server. Because of this, I implemented polling that executes every 30 seconds and in case of an error while updating or deleting a person's data.
 
 # The Phonebook
 
