@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const Filter = ({countriesNamesList, setFilterCountries, triggerFilter})=>{
 
     const [pattern, setPattern] = useState("");
-
+    
     useEffect(()=>{
         if(!pattern || !pattern.length)
             setFilterCountries([]);

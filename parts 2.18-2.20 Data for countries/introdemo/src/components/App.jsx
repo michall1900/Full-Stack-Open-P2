@@ -38,7 +38,7 @@ const App = () => {
             <h1>Countries Sercher</h1>
             <Notification message={message} setMessage={setMessage} />
             <Filter countriesNamesList={countriesNamesList} setFilterCountries={setFilterCountries} triggerFilter={triggerFilter} />
-            <Countries filterCountries={filterCountries} setMessage={setMessage}/>
+            <Countries filterCountries={filterCountries} setMessage={setMessage} setFilterCountries={setFilterCountries}/>
         </>
     )
 }
