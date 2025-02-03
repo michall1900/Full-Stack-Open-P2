@@ -10,6 +10,10 @@ import personsServer from "../services/persons";
  * @param {Function} props.setPersons - Function to update the list of persons.
  * @param {Function} props.setAddedPerson - Function to set the recently added person.
  * @param {Function} props.setEditPerson - Function to set the recently edited person.
+ * @param {Function} props.setIsError - Function to set the error state.
+ * @param {Function} props.setMessage - Function to set the message state.
+ * @param {boolean} props.triggerFetch - Boolean to trigger data fetch.
+ * @param {Function} props.setTriggerFetch - Function to set the trigger fetch state.
  *
  * @returns {JSX.Element} The rendered component.
  *
@@ -19,6 +23,10 @@ import personsServer from "../services/persons";
  *   setPersons={setPersons}
  *   setAddedPerson={setAddedPerson}
  *   setEditPerson={setEditPerson}
+ *   setIsError={setIsError}
+ *   setMessage={setMessage}
+ *   triggerFetch={triggerFetch}
+ *   setTriggerFetch={setTriggerFetch}
  * />
  *
  * @description
@@ -34,7 +42,7 @@ import personsServer from "../services/persons";
  * - Must start with digits.
  * - Can contain optional groups of digits each preceded by a hyphen.
  */
-const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson}) => {
+const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage, triggerFetch, setTriggerFetch}) => {
 
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
@@ -71,9 +79,13 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson}) => {
             setPersons(persons.concat(returnedPerson));
             setAddedPerson(returnedPerson);
             clearInput();
+            setIsError(false);
+            setMessage(`Successfuly added ${returnedPerson.name}.`)
         })
         .catch(error => {
-            alert(`Fail on adding ${newName} to the list. Error: ${error}`);
+            setMessage(`Fail on adding ${newName} to the list. Error: ${error}`);
+            setIsError(true);
+            setTriggerFetch(triggerFetch => !triggerFetch);
         })
     }
 
@@ -92,9 +104,13 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson}) => {
             setPersons(persons.map(person => (person.id === newRecievedPerson.id) ? newRecievedPerson : person));
             setEditPerson(newRecievedPerson);
             clearInput();
+            setIsError(false);
+            setMessage(`Successfuly changed ${newRecievedPerson.name}'s number to ${newRecievedPerson.number}`);
         })
         .catch(error => {
-            alert (`Failed on update ${newPerson.name} number. Error: ${error}`)
+            setMessage (`Failed on update ${newPerson.name}'s number. Error: ${error}`)
+            setIsError(true);
+            setTriggerFetch(triggerFetch => !triggerFetch);
         });
     }
 
