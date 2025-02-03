@@ -1,58 +1,35 @@
-import { useEffect, useState } from "react";
-import countriesApi from "../services/restcountries"
+import {useState } from "react";
+import CountryDetilsDisplay from "./CountryDetailsDisplay"
+import CapitalWeatherDisplay from "./CapitalWeatherDisplay"
 
-const CountryItem = ({ country, setMessage, setFilterCountries, isNeedsToShow }) => {
-    const [params, setParams] = useState({})
+const CountryItem = ({ country, setMessage, setFilterCountries, isNeedsToShowDetails, setIsNeedToShowDetails }) => {
 
-    useEffect(()=>{
-        if(isNeedsToShow){
-            countriesApi
-            .getCountryByName(country.toShowName)
-            .then((data)=>{
-                if(data.error){
-                    throw(data.error);
-                }
-                setParams({
-                    Capital: data.capital.join(", "),
-                    Area: data.area,
-                    Languages: Object.values(data.languages),
-                    flags: data.flags
-                })
-            })
-            .catch((error)=>{
-                setMessage(`Can't fetch ${country.toShowName}'s data. Error: ${error}`)
-            })
-        }
-    }, [isNeedsToShow])
+    const [latlng, setLatlng] = useState(null);
+    const [capital, setCapital] = useState(null);
 
-    const onClickShowButton = (event)=>{
+
+    const onClickShowButton = (event) => {
+        setIsNeedToShowDetails(false);
         setFilterCountries([country]);
     }
 
 
     return (
         <div>
-            {(!isNeedsToShow)? (
+            {(!isNeedsToShowDetails) ? (
                 <>
                     {country.toShowName} <button onClick={onClickShowButton}>show</button>
                 </>
             ) : (
                 <>
-                    <h2>{country.toShowName}</h2>
-                    {params.Capital && (<p>Capital: {params.Capital}</p>)}
-                    {params.Area && (<p>Area: {params.Area}</p>)}
-                    {params.Languages && 
-                    (<ul>
-                        {params.Languages.map((language)=> <li key={`${country.id}${language}`}>{language}</li>)}
-                    </ul>)}
-                    {params.flags && 
-                    <img src={params.flags.png} alt={params.flags.alt}/>
-                    }
+                    <CountryDetilsDisplay setMessage={setMessage} country={country} setLatlng={setLatlng} setCapital={setCapital}/>
+                    {latlng && <CapitalWeatherDisplay latlng={latlng} capital={capital} setMessage={setMessage}/>}
                 </>
             )}
-            
+
         </div>
     )
 }
+
 
 export default CountryItem;
