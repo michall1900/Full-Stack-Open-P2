@@ -2,15 +2,14 @@ import {useState } from "react";
 import CountryDetilsDisplay from "./CountryDetailsDisplay"
 import CapitalWeatherDisplay from "./CapitalWeatherDisplay"
 
-const CountryItem = ({ country, setMessage, setFilterCountries, isNeedsToShowDetails, setIsNeedToShowDetails }) => {
+const CountryItem = ({ country, setMessage, setFilterCountries, isNeedsToShowDetails }) => {
 
     const [latlng, setLatlng] = useState(null);
     const [capital, setCapital] = useState(null);
 
 
     const onClickShowButton = (event) => {
-        setIsNeedToShowDetails(false);
-        setFilterCountries([country]);
+        setFilterCountries([JSON.parse(JSON.stringify(country))]);
     }
 
 
@@ -22,7 +21,8 @@ const CountryItem = ({ country, setMessage, setFilterCountries, isNeedsToShowDet
                 </>
             ) : (
                 <>
-                    <CountryDetilsDisplay setMessage={setMessage} country={country} setLatlng={setLatlng} setCapital={setCapital}/>
+                    <CountryDetilsDisplay setMessage={setMessage} country={country} 
+                        setLatlng={setLatlng} setCapital={setCapital}/>
                     {latlng && <CapitalWeatherDisplay latlng={latlng} capital={capital} setMessage={setMessage}/>}
                 </>
             )}

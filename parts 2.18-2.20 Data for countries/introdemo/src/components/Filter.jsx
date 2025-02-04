@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
-const Filter = ({countriesNamesList, setFilterCountries, triggerFilter})=>{
+const Filter = ({countriesNamesList, setFilterCountries, triggerFilter, setIsNotFound})=>{
 
     const [pattern, setPattern] = useState("");
     
     useEffect(()=>{
-        if(!pattern || !pattern.length)
+        if(!pattern || !pattern.length){
             setFilterCountries([]);
+            setIsNotFound(false);
+        }
         else{
             const newCountryList = [];
             const toLowerPattern = pattern.toLowerCase();
@@ -18,7 +20,7 @@ const Filter = ({countriesNamesList, setFilterCountries, triggerFilter})=>{
                     }
                 }
             }
-            
+            setIsNotFound(!newCountryList.length);
             setFilterCountries((newCountryList.length > 10)? [] : newCountryList)
         }
         

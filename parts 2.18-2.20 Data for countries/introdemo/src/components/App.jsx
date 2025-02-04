@@ -11,6 +11,7 @@ const App = () => {
     const [filterCountries, setFilterCountries] = useState([]);
     const [triggerFilter, setTriggerFilter] = useState(true);
     const [message, setMessage] = useState(null);
+    const [isNotFound, setIsNotFound] = useState(false);
 
     useEffect(() => {
         countriesApi
@@ -37,8 +38,10 @@ const App = () => {
         <>
             <h1>Countries Sercher</h1>
             <Notification message={message} setMessage={setMessage} />
-            <Filter countriesNamesList={countriesNamesList} setFilterCountries={setFilterCountries} triggerFilter={triggerFilter} />
-            <Countries filterCountries={filterCountries} setMessage={setMessage} setFilterCountries={setFilterCountries}/>
+            <Filter countriesNamesList={countriesNamesList} setFilterCountries={setFilterCountries} 
+                triggerFilter={triggerFilter} setIsNotFound={setIsNotFound} />
+            <Countries filterCountries={filterCountries} setMessage={setMessage} 
+                setFilterCountries={setFilterCountries} isNotFound={isNotFound}/>
         </>
     )
 }

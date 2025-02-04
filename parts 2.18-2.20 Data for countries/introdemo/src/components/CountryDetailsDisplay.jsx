@@ -9,7 +9,7 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital}) => 
         if(!data || data.error || !(
             data.capital && Array.isArray(data.capital) && 
             data.area && data.languages && 
-            data.flags && data.flags.png && data.flags.alt &&
+            data.flags && data.flags.png &&
             data.latlng && Array.isArray(data.latlng) && data.latlng.length===2)
         )
             throw("Received invalid data while fetching country's data.");
@@ -17,10 +17,11 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital}) => 
 
     useEffect(()=>{
         console.log("fetch for", country.toShowName);
-        
+
         countriesApi
         .getCountryByName(country.toShowName)
         .then((data) => {
+            console.log(data)
             validateData(data);
             const capital = data.capital.join(", ");
             setParams( {
