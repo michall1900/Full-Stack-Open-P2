@@ -5,7 +5,7 @@ const BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
 const PREFIX_ICON = "https://openweathermap.org/img/wn/"
 const SUFFIX_ICON = "@2x.png"
 
-let params = {
+const params = {
     appid: api_key,
     units: "metric"
 }
