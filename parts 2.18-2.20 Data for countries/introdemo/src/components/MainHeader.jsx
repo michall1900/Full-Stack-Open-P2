@@ -1,13 +1,19 @@
 const MainHeader = ()=>{
     const headerContainer = {
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center"
+        justifyContent: "strtech",
+        alignItems: "stretch"
     }
     const headerStyle = {
-        fontFamily: "'Goudy Old Style'",
-        fontSize: "4em",
-        textAlign: "center"
+        fontFamily: "'Goudy Old Style' sanserif",
+        textAlign: "center",
+        fontSize: "calc(25px + 3vw)",
+        textTransform: "uppercase",
+        wordSpacing: "2vw",
+        fontWeight: "bold",
+        fontStyle: "italic",
+        marginBottom: "3vh",
+        flexGrow: "1" 
     }
 
     return(

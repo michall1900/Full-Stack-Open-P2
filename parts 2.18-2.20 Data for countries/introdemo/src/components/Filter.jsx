@@ -3,7 +3,31 @@ import { useEffect, useState } from "react";
 const Filter = ({countriesNamesList, setFilterCountries, triggerFilter, setIsNotFound})=>{
 
     const [pattern, setPattern] = useState("");
+
+    const containerStyle = {
+        display: "flex",
+        alignItems: "center",
+        fontSize: "calc(1vw + 10px)",
+        justifyContent: "center",
+        textAlign: "center",
+        margin: "2vh auto",
+        width: "100%",
+        fontFamily: "'Georgia'"
+    }
+
+    const labelStyle = {
+        marginRight: "10px",
+        whiteSpace: "nowrap" 
+    };
     
+    const inputStyle = {
+        padding: "8px 10px",
+        border: "2px solid #ccc", 
+        borderRadius: "4px",
+        maxHeight: "1.5vh" 
+    };
+
+
     useEffect(()=>{
         if(!pattern || !pattern.length){
             setFilterCountries([]);
@@ -32,8 +56,8 @@ const Filter = ({countriesNamesList, setFilterCountries, triggerFilter, setIsNot
     }
 
     return(
-        <div>
-            <label htmlFor="filter">Find countries: <input id="filter" value={pattern} onChange={changePattern}/></label>
+        <div style = {containerStyle}>
+            <label htmlFor="filter" style={labelStyle}>Find countries: <input id="filter" value={pattern} onChange={changePattern} style={inputStyle} maxLength={15}/></label>
         </div>
     )
 }

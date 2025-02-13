@@ -4,8 +4,11 @@ const Notification = ({message, setMessage}) =>{
 
     const notificationsStyle = {
         color : "red",
-        fontSize : "20px",
-        background: "lightGrey"
+        fontSize : "35px",
+        background: "lightgrey",
+        border: "thin dashed black",
+        textAlign: "center",
+        marginBottom: "3vh"
     }
 
     useEffect(()=>{

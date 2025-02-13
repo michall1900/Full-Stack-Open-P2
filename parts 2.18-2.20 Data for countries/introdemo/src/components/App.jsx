@@ -16,14 +16,16 @@ const App = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const background = {
-        backgroundColor: "rgba(191, 215,218)",
+        
+        backgroundColor: "AliceBlue",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         height: "100vh",
         width: "100vw",
         padding: "10px",
-        margin: "0 auto",
-        border: "5px solid"
+        margin: "0",
+        border: "5px solid",
+        textAlign: "center"
     }
 
     useEffect(() => {
@@ -39,7 +41,7 @@ const App = () => {
                     }
                 )));
             })
-            .catch((error) => {
+            .catch((_) => {
                 setMessage(`Can't fetch countries. Error: ${message}`);
             })
             .finally(() => {
