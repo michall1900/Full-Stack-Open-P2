@@ -19,15 +19,16 @@ const App = () => {
 
     const appStyle = {
         width: "100vw",
-        height: "100vh",
+        minHeight: "100vh",
         boxSizing: "border-box",
         textAlign: "center",
         fontFamily: "Garamond, sans-serif",
         fontSize: "max(20px, 2vw)",
         background: "linear-gradient(to right, #e0f7fa 0%, #90caf9 100%)",
         backgroundSize: "cover",
+        backgroundAttachment:"fixed",
         padding: "20px 0",
-        margin: "0 auto",
+        margin: "0",
         fontWeight: "bold"
     }
 

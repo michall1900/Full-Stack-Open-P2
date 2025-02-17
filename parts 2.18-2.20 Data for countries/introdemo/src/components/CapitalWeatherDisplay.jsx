@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 const CapitalDetailsDisplay = ({ latlng, capital, setMessage, setIsLoading }) => {
 
     const [weatherParams, setWeatherParams] = useState(null);
-
+    const containerStyle={
+        justifyContent:"center",
+        flexDirection:"column",
+        margin:"0 auto"
+    }
     const validateData = (data)=>{
         if(!data || data.error || !(
             data.main && data.main.temp &&
@@ -37,8 +41,8 @@ const CapitalDetailsDisplay = ({ latlng, capital, setMessage, setIsLoading }) =>
     }, [])
 
     return (
-        <>
-            <h2>Weather in {capital}</h2>
+        <div style={containerStyle}>
+            <h3>Weather in {capital}</h3>
             {weatherParams &&
                 <>
                     <p>Temperature: {weatherParams.temperature} Celcius</p>
@@ -47,7 +51,7 @@ const CapitalDetailsDisplay = ({ latlng, capital, setMessage, setIsLoading }) =>
                     <p>Wind: {weatherParams.windSpeed} m/s</p>
                 </>
             }
-        </>
+        </div>
     )
 }
 

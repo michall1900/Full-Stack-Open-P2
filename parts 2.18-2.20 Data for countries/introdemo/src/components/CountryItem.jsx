@@ -12,20 +12,22 @@ const CountryItem = ({ country, setMessage, setFilterCountries, isNeedsToShowDet
         setFilterCountries([JSON.parse(JSON.stringify(country))]);
     }
     const spanStyle = {
-        margin:"5px"
+        margin:"1vh",
+        textAlign:"start"
     }
     const itemStyle = {
         display: "flex",
         justifyContent: "center",
         width: "100%",
-        flexWrap:"wrap"
+        flexWrap:"wrap",
     }
     const buttonStyle={
         margin:"5px",
         background:"",
         fontFamily:"Garamond, sans-serif",
         fontWeight: "800",
-        borderRadius: "5px"
+        borderRadius: "5px",
+        textAlign:"end"
     }
 
     const labelAndButtonDiv = {

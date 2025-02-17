@@ -4,7 +4,14 @@ import countriesApi from "../services/restcountries"
 const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital, setIsLoading}) => {
 
     const [params, setParams] = useState(null)
-
+    const containerStyle={
+        justifyContent:"center",
+        flexDirection:"column",
+        margin:"0 auto"
+    }
+    const imageStyle={
+        width:"35vw"
+    }
     const validateData = (data)=>{
         if(!data || data.error || !(
             data.capital && Array.isArray(data.capital) && 
@@ -43,7 +50,7 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital, setI
     }, [])
 
     return (
-        <>
+        <div style={containerStyle}>
             <h2>{country.toShowName}</h2>
             {params && 
             <>
@@ -58,11 +65,11 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital, setI
                         </ul>
                     </>)}
                 {params.flags &&
-                    <img src={params.flags.png} alt={params.flags.alt} />
+                    <img src={params.flags.png} alt={params.flags.alt} style={imageStyle}/>
                 }
             </>
             }
-        </>
+        </div>
     )
 }
 
