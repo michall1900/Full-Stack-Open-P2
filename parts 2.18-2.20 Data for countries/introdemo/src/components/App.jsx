@@ -5,6 +5,8 @@ import Filter from './Filter'
 import shortid from "shortid"
 import Countries from './Countries'
 import MainHeader from './MainHeader'
+import ClipLoader from "react-spinners/ClipLoader"
+
 
 const App = () => {
 
@@ -15,20 +17,22 @@ const App = () => {
     const [isNotFound, setIsNotFound] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    const background = {
-        
-        backgroundColor: "AliceBlue",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        height: "100vh",
+    const appStyle = {
         width: "100vw",
-        padding: "10px",
-        margin: "0",
-        border: "5px solid",
-        textAlign: "center"
+        height: "100vh",
+        boxSizing: "border-box",
+        textAlign: "center",
+        fontFamily: "Garamond, sans-serif",
+        fontSize: "max(20px, 2vw)",
+        background: "linear-gradient(to right, #e0f7fa 0%, #90caf9 100%)",
+        backgroundSize: "cover",
+        padding: "20px 0",
+        margin: "0 auto",
+        fontWeight: "bold"
     }
 
     useEffect(() => {
+        setIsLoading(true);
         countriesApi
             .getAllCountries()
             .then((data) => {
@@ -46,17 +50,24 @@ const App = () => {
             })
             .finally(() => {
                 setTriggerFilter(triggerFilter => !triggerFilter);
+                setIsLoading(false);
             })
     }, [])
 
     return (
-        <div style={background}>
-            <MainHeader/>
-            <Notification message={message} setMessage={setMessage} />
-            <Filter countriesNamesList={countriesNamesList} setFilterCountries={setFilterCountries} 
-                triggerFilter={triggerFilter} setIsNotFound={setIsNotFound} />
-            <Countries filterCountries={filterCountries} setMessage={setMessage} 
-                setFilterCountries={setFilterCountries} isNotFound={isNotFound}/>
+        <div style={appStyle}>
+            <header>
+                <MainHeader/>
+                <Notification message={message} setMessage={setMessage} />
+                <Filter countriesNamesList={countriesNamesList} setFilterCountries={setFilterCountries} 
+                    triggerFilter={triggerFilter} setIsNotFound={setIsNotFound} />
+                <ClipLoader loading={isLoading} size={30}/>
+            </header>
+            
+            <main>
+                <Countries filterCountries={filterCountries} setMessage={setMessage} 
+                    setFilterCountries={setFilterCountries} isNotFound={isNotFound} setIsLoading={setIsLoading}/>
+            </main>
         </div>
     )
 }

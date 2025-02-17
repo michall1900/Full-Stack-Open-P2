@@ -1,24 +1,15 @@
 const MainHeader = ()=>{
-    const headerContainer = {
-        display: "flex",
-        justifyContent: "strtech",
-        alignItems: "stretch"
-    }
-    const headerStyle = {
-        fontFamily: "'Goudy Old Style' sanserif",
-        textAlign: "center",
-        fontSize: "calc(25px + 3vw)",
-        textTransform: "uppercase",
-        wordSpacing: "2vw",
-        fontWeight: "bold",
-        fontStyle: "italic",
-        marginBottom: "3vh",
-        flexGrow: "1" 
+    const headerStyle ={
+        fontSize: "max(40px, 5vw)",
+        marginBottom:"3vh",
+        textShadow: "1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 2px 2px 4px rgba(0, 0, 0, 0.5)",
+        fontWeight: "1000",
+        color: "#ffffff"
     }
 
     return(
-        <div style={headerContainer}>
-            <h1 style = {headerStyle}>Countries Sercher</h1>
+        <div>
+            <h1 style={headerStyle}>Countries Sercher</h1>
         </div>
         
     )

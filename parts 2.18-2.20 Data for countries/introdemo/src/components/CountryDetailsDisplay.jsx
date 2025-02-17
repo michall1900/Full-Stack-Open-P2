@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import countriesApi from "../services/restcountries"
 
-const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital}) => {
+const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital, setIsLoading}) => {
 
     const [params, setParams] = useState(null)
 
@@ -17,7 +17,7 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital}) => 
 
     useEffect(()=>{
         console.log("fetch for", country.toShowName);
-
+        setIsLoading(true);
         countriesApi
         .getCountryByName(country.toShowName)
         .then((data) => {
@@ -36,6 +36,9 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital}) => 
         .catch((error) => {
             setMessage(`Can't fetch ${country.toShowName}'s data. Error: ${error}`)
             setParams(null)
+        })
+        .finally(()=>{
+            setIsLoading(false);
         })
     }, [])
 

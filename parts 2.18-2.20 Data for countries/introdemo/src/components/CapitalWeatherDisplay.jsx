@@ -1,7 +1,7 @@
 import weatherApi from "../services/openWeatherMapApi"
 import { useEffect, useState } from "react";
 
-const CapitalDetailsDisplay = ({ latlng, capital, setMessage }) => {
+const CapitalDetailsDisplay = ({ latlng, capital, setMessage, setIsLoading }) => {
 
     const [weatherParams, setWeatherParams] = useState(null);
 
@@ -16,7 +16,7 @@ const CapitalDetailsDisplay = ({ latlng, capital, setMessage }) => {
     }
     useEffect(() => {
         console.log("fetch weather for", capital);
-
+        setIsLoading(true);
         weatherApi
         .getWeather(latlng)
         .then ((data)=>{
@@ -30,6 +30,9 @@ const CapitalDetailsDisplay = ({ latlng, capital, setMessage }) => {
         })
         .catch((_)=>{
             setMessage(`Can't fetch ${capital}'s weather.`)
+        })
+        .finally(()=>{
+            setIsLoading(false);
         })
     }, [])
 

@@ -4,29 +4,25 @@ const Filter = ({countriesNamesList, setFilterCountries, triggerFilter, setIsNot
 
     const [pattern, setPattern] = useState("");
 
-    const containerStyle = {
-        display: "flex",
-        alignItems: "center",
-        fontSize: "calc(1vw + 10px)",
-        justifyContent: "center",
-        textAlign: "center",
-        margin: "2vh auto",
-        width: "100%",
-        fontFamily: "'Georgia'"
+    const labelStyle = {
+        paddingRight:"10px",
+        display: "block"
     }
 
-    const labelStyle = {
-        marginRight: "10px",
-        whiteSpace: "nowrap" 
-    };
-    
-    const inputStyle = {
-        padding: "8px 10px",
-        border: "2px solid #ccc", 
-        borderRadius: "4px",
-        maxHeight: "1.5vh" 
-    };
-
+    const inputStyle={
+        borderRadius: "5px",
+        border: "2px solid black",
+        minWidth: "max(20vw, 200px)" 
+    }
+    const containerStyle={
+        margin: "30px auto",
+        display: "flex",
+        justifyContent: "center",
+        fontWeight: "700",
+        width: "80vw",
+        alignItems: "center",
+        flexWrap:"wrap"
+    }
 
     useEffect(()=>{
         if(!pattern || !pattern.length){
@@ -56,8 +52,8 @@ const Filter = ({countriesNamesList, setFilterCountries, triggerFilter, setIsNot
     }
 
     return(
-        <div style = {containerStyle}>
-            <label htmlFor="filter" style={labelStyle}>Find countries: <input id="filter" value={pattern} onChange={changePattern} style={inputStyle} maxLength={15}/></label>
+        <div style={containerStyle}>
+            <label htmlFor="filter" style={labelStyle}>Find countries: </label><input id="filter" value={pattern} onChange={changePattern} maxLength={15} style={inputStyle}/>
         </div>
     )
 }
