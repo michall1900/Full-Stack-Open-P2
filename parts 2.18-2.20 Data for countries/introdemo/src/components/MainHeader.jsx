@@ -1,4 +1,5 @@
 const MainHeader = ()=>{
+    
     const headerStyle ={
         fontSize: "max(40px, 5vw)",
         marginBottom:"3vh",

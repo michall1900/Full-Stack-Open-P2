@@ -41,7 +41,6 @@ const App = () => {
                     {
                         name: country.name.common.toLowerCase(),
                         officialName: country.name.official.toLowerCase(),
-                        toShowName: country.name.common,
                         id: shortid.generate()
                     }
                 )));

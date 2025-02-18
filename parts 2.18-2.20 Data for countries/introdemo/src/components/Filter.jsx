@@ -6,13 +6,15 @@ const Filter = ({countriesNamesList, setFilterCountries, triggerFilter, setIsNot
 
     const labelStyle = {
         paddingRight:"10px",
-        display: "block"
+        height: "100%"
     }
 
     const inputStyle={
         borderRadius: "5px",
         border: "2px solid black",
-        minWidth: "max(20vw, 200px)" 
+        minWidth: "max(20vw, 100px)",
+        height:"auto",
+        fontSize:"max(1.5vw, 15px)"
     }
     const containerStyle={
         margin: "30px auto",

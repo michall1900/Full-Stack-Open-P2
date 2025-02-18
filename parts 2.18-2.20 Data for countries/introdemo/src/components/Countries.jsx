@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
 import CountryItem from "./CountryItem";
+import CountriesList from "./CountriesList";
 
 const Countries = ({ filterCountries, setMessage, setFilterCountries, isNotFound, setIsLoading }) => {
 
 
-    const isNeedsToShowDetails = filterCountries.length===1;
+    const isNeedsToShowDetails = filterCountries && filterCountries.length===1;
     
     return (
         <div>
-            {(filterCountries && filterCountries.length) ? (
-                filterCountries.map(country => (
-                    <CountryItem key={country.id} country={country} 
-                    setMessage={setMessage} setFilterCountries={setFilterCountries}
-                    isNeedsToShowDetails={isNeedsToShowDetails} setIsLoading={setIsLoading}/>
-                ))
-            ) : (
+            {(filterCountries && filterCountries.length)? 
+                <>
+                    {(isNeedsToShowDetails)? 
+                        <CountryItem setMessage={setMessage} setIsLoading={setIsLoading} 
+                            country={filterCountries[0]}/> :
+
+                        <CountriesList filterCountries={filterCountries} 
+                            setFilterCountries={setFilterCountries}/>}
+                </>
+                    :
                 <p>{isNotFound? "Can't find a country that is matching to your filter":
                     "Too many matches, specify another filter"}</p>
-            )}
+            }
         </div>
     );
 }

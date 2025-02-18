@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 const CapitalDetailsDisplay = ({ latlng, capital, setMessage, setIsLoading }) => {
 
     const [weatherParams, setWeatherParams] = useState(null);
+
     const containerStyle={
-        justifyContent:"center",
-        flexDirection:"column",
-        margin:"0 auto"
+        display:"block",
+        textAlign:"start",
+        alignSelf:"flex-center"
     }
+
     const validateData = (data)=>{
         if(!data || data.error || !(
             data.main && data.main.temp &&
