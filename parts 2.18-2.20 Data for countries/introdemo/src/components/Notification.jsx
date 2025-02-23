@@ -1,5 +1,14 @@
 import { useEffect } from "react";
 
+/**
+ * Notification component to display a message with a specific style.
+ * The message will disappear after 5 seconds.
+ *
+ * @param {Object} props - The component props.
+ * @param {string} props.message - The message to display.
+ * @param {Function} props.setMessage - Function to clear the message.
+ * @returns {JSX.Element|null} The Notification component or null if no message.
+ */
 const Notification = ({message, setMessage}) =>{
 
     const notificationsStyle = {

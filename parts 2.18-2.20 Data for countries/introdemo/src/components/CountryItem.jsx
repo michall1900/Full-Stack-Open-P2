@@ -2,6 +2,16 @@ import {useState } from "react";
 import CountryDetilsDisplay from "./CountryDetailsDisplay"
 import CapitalWeatherDisplay from "./CapitalWeatherDisplay"
 
+/**
+ * CountryItem component displays details of a country and its capital weather.
+ *
+ * @param {Object} props - The properties object.
+ * @param {Object} props.country - The country data to display.
+ * @param {Function} props.setMessage - Function to set a message.
+ * @param {Function} props.setIsLoading - Function to set the loading state.
+ *
+ * @returns {JSX.Element} The rendered CountryItem component.
+ */
 const CountryItem = ({ country, setMessage, setIsLoading }) => {
 
     const [latlng, setLatlng] = useState(null);
@@ -10,7 +20,7 @@ const CountryItem = ({ country, setMessage, setIsLoading }) => {
     const itemStyle = {
         display: "flex",
         justifyContent: "space-between",
-        width: "75vw",
+        width: "70vw",
         flexWrap:"wrap",
         alignItems:"start",
         alignContent: "flex-start",

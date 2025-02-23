@@ -1,3 +1,14 @@
+/**
+ * MainHeader component renders a styled header for the application.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <MainHeader />
+ * )
+ * 
+ * @returns {JSX.Element} A div containing an h1 element with custom styles.
+ */
 const MainHeader = ()=>{
     
     const headerStyle ={

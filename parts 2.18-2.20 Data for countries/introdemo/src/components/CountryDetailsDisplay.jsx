@@ -1,7 +1,20 @@
+
 import { useEffect, useState } from "react";
 import countriesApi from "../services/restcountries"
 import SubTitle from "./SubTitle";
 
+/**
+ * Component to display detailed information about a country.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} props.setMessage - Function to set the message state.
+ * @param {Object} props.country - The country object containing its name.
+ * @param {Function} props.setLatlng - Function to set the latitude and longitude state.
+ * @param {Function} props.setCapital - Function to set the capital state.
+ * @param {Function} props.setIsLoading - Function to set the loading state.
+ * @returns {JSX.Element} The CountryDetailsDisplay component.
+ */
 const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital, setIsLoading}) => {
 
     const [params, setParams] = useState(null)
@@ -18,6 +31,17 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital, setI
         maxWidth:"300px"
     }
 
+    
+    /**
+     * Validates the provided data object to ensure it meets the required structure.
+     * Throws an error if the data is invalid.
+     * 
+     * @param {Object} data - The data object to validate.
+     * @throws Will throw an error if data is null, has an error property, 
+     *         or if the capital property is not an array (when present), 
+     *         or if the flags property does not have a png property (when present), 
+     *         or if the latlng property is not an array of length 2.
+     */
     const validateData = (data)=>{
         if(!data || data.error || !(
             (!data.capital || Array.isArray(data.capital)) && 
@@ -39,7 +63,7 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital, setI
             setParams( {
                 capital: (capital)? capital: "unknown",
                 area: (data.area)? data.area: "unknown",
-                languages: (data.languages)? Object.values(data.languages): ["unknown"],
+                languages: (data.languages)? Object.values(data.languages): [],
                 flags: data.flags
             })
             setLatlng({lat:data.latlng[0], lon:data.latlng[1]});
@@ -59,16 +83,17 @@ const CountryDetailsDisplay = ({setMessage, country, setLatlng, setCapital, setI
             <SubTitle titleText={country.name}/>
             {params && 
             <>
-                {params.capital && (<p>Capital: {params.capital}</p>)}
-                {params.area && (<p>Area: {params.area}</p>)}
-                {params.languages &&
+                <p>Capital: {params.capital}</p>
+                <p>Area: {params.area}</p>
+                {(params.languages.length>0)?
                     (<>
                         Languages:
                         <ul>
                             {params.languages.map((language) => 
                             <li key={`${country.id}${language}`}>{language}</li>)}
                         </ul>
-                    </>)}
+                    </>):
+                    <p>Languages: unknown</p>}
                 {params.flags && params.flags.png &&
                     <img src={params.flags.png} alt={params.flags.alt} style={imageStyle}/>
                 }

@@ -1,6 +1,19 @@
+
 import weatherApi from "../services/openWeatherMapApi"
 import { useEffect, useState } from "react";
 
+
+/**
+ * Component to display weather details for a given capital city.
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array<number>} props.latlng - The latitude and longitude of the capital city.
+ * @param {string} props.capital - The name of the capital city.
+ * @param {Function} props.setMessage - Function to set the message in case of an error.
+ * @param {Function} props.setIsLoading - Function to set the loading state.
+ * @returns {JSX.Element} The rendered component.
+ */
 const CapitalDetailsDisplay = ({ latlng, capital, setMessage, setIsLoading }) => {
 
     const [weatherParams, setWeatherParams] = useState(null);
