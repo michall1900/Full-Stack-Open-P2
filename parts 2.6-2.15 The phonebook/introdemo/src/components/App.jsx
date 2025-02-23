@@ -4,6 +4,7 @@ import PersonForm from "./PersonForm";
 import Filter from "./Filter";
 import Persons from "./Persons";
 import Notification from "./Notification";
+import ClipLoader from "react-spinners/ClipLoader";
 
 /**
  * App component for the Phonebook application.
@@ -29,6 +30,7 @@ const App = () => {
   const [isError, setIsError] = useState(false);
   const [triggerFetch, setTriggerFetch] = useState(true);
   const [triggerFilter, setTrigerFilter] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const timerId = useRef(null);
 
   /**
@@ -41,7 +43,7 @@ const App = () => {
   const polling = () => {
     if(timerId.current)
       clearTimeout(timerId.current);
-
+    setIsLoading(true);
     personsServer
       .getAllPersons()
       .then(persons => {
@@ -51,6 +53,9 @@ const App = () => {
       .catch(error => {
         setMessage(`Can't get persons. Error: ${error}`);
         setIsError(true);
+      })
+      .finally(() => {
+        setIsLoading(false);
       })
     
     timerId.current = setTimeout(polling, 30000);
@@ -65,14 +70,16 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <Notification isError={isError} message={message} setMessage={setMessage} />
+      <ClipLoader loading={isLoading}/>
       <Filter persons={persons} setFilterPersons={setFilterPersons} filterPersons={filterPersons}
         deletedPerson={deletedPerson} addedPerson={addedPerson} editPerson={editPerson} triggerFilter={triggerFilter}/>
       <h2>Add a new</h2>
       <PersonForm setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson={setEditPerson}
-        setIsError={setIsError} setMessage={setMessage} setTriggerFetch={setTriggerFetch} triggerFetch={triggerFetch}/>
+        setIsError={setIsError} setMessage={setMessage} setTriggerFetch={setTriggerFetch} setIsLoading={setIsLoading}/>
       <h2>Numbers</h2>
       <Persons filterPersons={filterPersons} persons={persons} setPersons={setPersons} setDeletedPerson={setDeletedPerson}
-        setIsError={setIsError} setMessage={setMessage} setTriggerFetch={setTriggerFetch} triggerFetch={triggerFetch}/>
+        setIsError={setIsError} setMessage={setMessage} setTriggerFetch={setTriggerFetch}
+        setIsLoading={setIsLoading}/>
     </div>
   );
 };

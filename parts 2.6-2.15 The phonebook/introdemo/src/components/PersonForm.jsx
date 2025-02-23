@@ -42,7 +42,7 @@ import personsServer from "../services/persons";
  * - Must start with digits.
  * - Can contain optional groups of digits each preceded by a hyphen.
  */
-const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage, triggerFetch, setTriggerFetch}) => {
+const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage, setTriggerFetch, setIsLoading}) => {
 
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
@@ -73,6 +73,7 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
      */
     const sendPersonToServer = () => {
         const newPerson = { name: newName, number: number}
+        setIsLoading(true);
         personsServer
         .addNewPerson(newPerson)
         .then(returnedPerson => {
@@ -87,6 +88,9 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
             setIsError(true);
             setTriggerFetch(triggerFetch => !triggerFetch);
         })
+        .finally(() => {
+            setIsLoading(false);
+        });
     }
 
     /**
@@ -98,6 +102,7 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
      */
     const updateNumber = (existPerson) => {
         const newPerson = {...existPerson, number: number};
+        setIsLoading(true);
         personsServer
         .editPersonNumber(newPerson)
         .then(newRecievedPerson => {
@@ -111,6 +116,9 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
             setMessage (`Failed on update ${newPerson.name}'s number. Error: ${error}`)
             setIsError(true);
             setTriggerFetch(triggerFetch => !triggerFetch);
+        })
+        .finally(() => {
+            setIsLoading(false);
         });
     }
 

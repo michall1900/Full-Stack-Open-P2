@@ -16,7 +16,8 @@ import personsServer from "../services/persons";
  * @returns {JSX.Element} The rendered component.
  */
 
-const PersonItem = ({ person, setPersons, persons, setDeletedPerson, setIsError, setMessage, triggerFetch, setTriggerFetch }) => {
+const PersonItem = ({ person, setPersons, persons, setDeletedPerson, 
+    setIsError, setMessage, setTriggerFetch, setIsLoading }) => {
 
     /**
      * Deletes a person from the list after confirming with the user.
@@ -27,6 +28,7 @@ const PersonItem = ({ person, setPersons, persons, setDeletedPerson, setIsError,
      */
     const deletePerson = (id, name) => () => {
         if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+            setIsLoading(true);
             personsServer
                 .deletePerson(id)
                 .then(deletedPerson => {
@@ -40,6 +42,9 @@ const PersonItem = ({ person, setPersons, persons, setDeletedPerson, setIsError,
                     setIsError(true);
                     setTriggerFetch(triggerFetch => !triggerFetch);
                 })
+                .finally(() => {
+                    setIsLoading(false);
+                });
         }
     }
 
