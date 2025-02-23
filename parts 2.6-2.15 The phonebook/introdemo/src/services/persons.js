@@ -49,7 +49,7 @@ const deletePerson = (id) =>
  * @returns {Promise<Object>} A promise that resolves to the updated person data.
  */
 const editPersonNumber = (person)=>
-    axios.put(`${BASE_URL}/${person.id}`,person).then(respone => respone.data);
+    axios.put(`${BASE_URL}/${person.id}`,person).then(response => response.data);
 
 export default {getAllPersons, addNewPerson, deletePerson, editPersonNumber};
 
