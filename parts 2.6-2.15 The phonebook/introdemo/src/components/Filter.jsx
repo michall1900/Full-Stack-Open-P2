@@ -78,6 +78,7 @@ const Filter = ({ persons, filterPersons, setFilterPersons, editPerson, deletedP
             <label htmlFor="filter">
                 Filter shown with:{" "}
                 <input
+                
                     value={userPatternToFilter}
                     onChange={changeFilter}
                     id="filter"

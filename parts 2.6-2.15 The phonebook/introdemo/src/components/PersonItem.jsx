@@ -31,14 +31,17 @@ const PersonItem = ({ person, setPersons, persons, setDeletedPerson,
             setIsLoading(true);
             personsServer
                 .deletePerson(id)
-                .then(deletedPerson => {
-                    setPersons(persons.filter((({ id }) => id !== deletedPerson.id)))
+                .then(_ => {
+                    const index= persons.findIndex((person)=>person.id===id)
+                    const deletedPerson = {...persons[index]}
+                    setPersons([...persons.slice(0,index), ...persons.slice(index+1, persons.length)])
                     setDeletedPerson(deletedPerson);
-                    setMessage(`${deletePerson.name} deleted successfuly.`)
+                    setMessage(`${deletedPerson.name} deleted successfuly.`)
                     setIsError(false);
                 })
                 .catch(error => {
-                    setMessage(`Can't delete ${name}, Error: ${error}`);
+                    console.log()
+                    setMessage(`Can't delete ${name}, ${(error && error.response && error.response.data && error.response.data.error)? error.response.data.error: "Error:" + error}`);
                     setIsError(true);
                     setTriggerFetch(triggerFetch => !triggerFetch);
                 })
