@@ -40,6 +40,17 @@ const App = () => {
    * On failure, sets an error message and updates the error state.
    * Sets a timeout to call itself again after 60 seconds.
    */
+
+  const notificationHandler = (customErrorMessage, isErrorNotification, errorObject)=>{
+    setIsError(isErrorNotification)
+    if(!isErrorNotification)
+      setMessage(`${customErrorMessage}`)
+    else if(errorObject && errorObject.response && errorObject.response.data && errorObject.response.data.error)
+      setMessage(`${customErrorMessage} ${errorObject.response.data.error}`)
+    else
+      setMessage(`${customErrorMessage} ${errorObject}`)
+  }
+
   const polling = () => {
     if(timerId.current)
       clearTimeout(timerId.current);
@@ -47,18 +58,20 @@ const App = () => {
     personsServer
       .getAllPersons()
       .then(persons => {
+        if(!Array.isArray(persons))
+          throw new Error("The received data is not an array.")
         setPersons(persons);
-        setTrigerFilter(triggerFilter => !triggerFilter);
+        timerId.current = setTimeout(polling, 30000);
       })
       .catch(error => {
-        setMessage(`Can't get persons. Error: ${error}`);
-        setIsError(true);
+        notificationHandler("Can't get phonebook. Try again later.", true, error);
+        setPersons([])
+        timerId.current = null;
       })
       .finally(() => {
+        setTrigerFilter(triggerFilter => !triggerFilter);
         setIsLoading(false);
       })
-    
-    timerId.current = setTimeout(polling, 30000);
   }
 
   useEffect(() => {
@@ -74,12 +87,12 @@ const App = () => {
       <Filter persons={persons} setFilterPersons={setFilterPersons} filterPersons={filterPersons}
         deletedPerson={deletedPerson} addedPerson={addedPerson} editPerson={editPerson} triggerFilter={triggerFilter}/>
       <h2>Add a new</h2>
-      <PersonForm setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson={setEditPerson}
-        setIsError={setIsError} setMessage={setMessage} setTriggerFetch={setTriggerFetch} setIsLoading={setIsLoading}/>
+      <PersonForm notificationHandler={notificationHandler} setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson={setEditPerson}
+        setTriggerFetch={setTriggerFetch} setIsLoading={setIsLoading}/>
       <h2>Numbers</h2>
       <Persons filterPersons={filterPersons} persons={persons} setPersons={setPersons} setDeletedPerson={setDeletedPerson}
         setIsError={setIsError} setMessage={setMessage} setTriggerFetch={setTriggerFetch}
-        setIsLoading={setIsLoading}/>
+        setIsLoading={setIsLoading} notificationHandler={notificationHandler}/>
     </div>
   );
 };

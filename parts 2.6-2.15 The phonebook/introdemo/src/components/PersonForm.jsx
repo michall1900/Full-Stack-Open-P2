@@ -42,7 +42,7 @@ import personsServer from "../services/persons";
  * - Must start with digits.
  * - Can contain optional groups of digits each preceded by a hyphen.
  */
-const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsError, setMessage, setTriggerFetch, setIsLoading}) => {
+const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setTriggerFetch, setIsLoading, notificationHandler}) => {
 
     const [newName, setNewName] = useState("");
     const [number, setNumber] = useState("");
@@ -80,12 +80,10 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
             setPersons(persons.concat(returnedPerson));
             setAddedPerson(returnedPerson);
             clearInput();
-            setIsError(false);
-            setMessage(`Successfuly added ${returnedPerson.name}.`)
+            notificationHandler(`Successfuly added ${returnedPerson.name}.`, false)
         })
         .catch(error => {
-            setMessage(`Fail on adding ${newName} to the list. Error: ${error}`);
-            setIsError(true);
+            notificationHandler(`Fail on adding ${newName} to the list`, true, error)
             setTriggerFetch(triggerFetch => !triggerFetch);
         })
         .finally(() => {
@@ -109,13 +107,11 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setIsE
             setPersons(persons.map(person => (person.id === newRecievedPerson.id) ? newRecievedPerson : person));
             setEditPerson(newRecievedPerson);
             clearInput();
-            setIsError(false);
-            setMessage(`Successfuly changed ${newRecievedPerson.name}'s number to ${newRecievedPerson.number}`);
+            notificationHandler(`Successfuly changed ${newRecievedPerson.name}'s number to ${newRecievedPerson.number}`, false)
         })
         .catch(error => {
-            setMessage (`Failed on update ${newPerson.name}'s number. Error: ${error}`)
-            setIsError(true);
             setTriggerFetch(triggerFetch => !triggerFetch);
+            notificationHandler(`Failed on update ${newPerson.name}'s number`, true, error)
         })
         .finally(() => {
             setIsLoading(false);

@@ -16,8 +16,7 @@ import personsServer from "../services/persons";
  * @returns {JSX.Element} The rendered component.
  */
 
-const PersonItem = ({ person, setPersons, persons, setDeletedPerson, 
-    setIsError, setMessage, setTriggerFetch, setIsLoading }) => {
+const PersonItem = ({ person, setPersons, persons, setDeletedPerson, setTriggerFetch, setIsLoading, notificationHandler }) => {
 
     /**
      * Deletes a person from the list after confirming with the user.
@@ -35,15 +34,12 @@ const PersonItem = ({ person, setPersons, persons, setDeletedPerson,
                     const index= persons.findIndex((person)=>person.id===id)
                     const deletedPerson = {...persons[index]}
                     setPersons([...persons.slice(0,index), ...persons.slice(index+1, persons.length)])
-                    setDeletedPerson(deletedPerson);
-                    setMessage(`${deletedPerson.name} deleted successfuly.`)
-                    setIsError(false);
+                    setDeletedPerson(deletedPerson)
+                    notificationHandler(`${deletedPerson.name} deleted successfuly.`, false)
                 })
                 .catch(error => {
-                    console.log()
-                    setMessage(`Can't delete ${name}, ${(error && error.response && error.response.data && error.response.data.error)? error.response.data.error: "Error:" + error}`);
-                    setIsError(true);
                     setTriggerFetch(triggerFetch => !triggerFetch);
+                    notificationHandler(`Can't delete ${name}`, true, error)
                 })
                 .finally(() => {
                     setIsLoading(false);
