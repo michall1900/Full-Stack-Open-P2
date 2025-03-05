@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "VITE_API_URL=https://full-stack-open-p3-f9zw.onrender.com vite",
+    "dev-server-run-local": "VITE_API_URL=http://localhost:3001 vite",
     "build": "VITE_API_URL= vite build",
     "lint": "eslint .",
     "preview": "vite preview",
