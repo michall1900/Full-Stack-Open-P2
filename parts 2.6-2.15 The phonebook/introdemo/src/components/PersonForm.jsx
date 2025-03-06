@@ -83,7 +83,7 @@ const PersonForm = ({ persons, setPersons, setAddedPerson, setEditPerson, setTri
             notificationHandler(`Successfuly added ${returnedPerson.name}.`, false)
         })
         .catch(error => {
-            notificationHandler(`Fail on adding ${newName} to the list`, true, error)
+            notificationHandler(`Fail on adding ${newName} to the list.`, true, error)
             setTriggerFetch(triggerFetch => !triggerFetch);
         })
         .finally(() => {

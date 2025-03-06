@@ -39,7 +39,7 @@ const PersonItem = ({ person, setPersons, persons, setDeletedPerson, setTriggerF
                 })
                 .catch(error => {
                     setTriggerFetch(triggerFetch => !triggerFetch);
-                    notificationHandler(`Can't delete ${name}`, true, error)
+                    notificationHandler(`Can't delete ${name}.`, true, error)
                 })
                 .finally(() => {
                     setIsLoading(false);

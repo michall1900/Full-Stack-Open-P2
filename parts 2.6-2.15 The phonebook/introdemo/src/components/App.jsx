@@ -33,24 +33,26 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const timerId = useRef(null);
 
+
+
+  const notificationHandler = (customErrorMessage, isErrorNotification, errorObject)=>{
+    setIsError(isErrorNotification)
+    if(errorObject && errorObject.response && errorObject.response.data && errorObject.response.data.error){
+      customErrorMessage = `${customErrorMessage} ${errorObject.response.data.error}`
+    }
+    console.error(customErrorMessage)
+    setMessage(`${customErrorMessage}`)
+  }
   /**
    * Polls the server to get the list of persons and updates the state accordingly.
    * If there is an existing timer, it clears it before setting a new one.
    * On successful retrieval of persons, updates the persons state and triggers the filter.
    * On failure, sets an error message and updates the error state.
    * Sets a timeout to call itself again after 60 seconds.
+   * 
+   * @function polling
+   * @returns {void} 
    */
-
-  const notificationHandler = (customErrorMessage, isErrorNotification, errorObject)=>{
-    setIsError(isErrorNotification)
-    if(!isErrorNotification)
-      setMessage(`${customErrorMessage}`)
-    else if(errorObject && errorObject.response && errorObject.response.data && errorObject.response.data.error)
-      setMessage(`${customErrorMessage} ${errorObject.response.data.error}`)
-    else
-      setMessage(`${customErrorMessage} ${errorObject}`)
-  }
-
   const polling = () => {
     if(timerId.current)
       clearTimeout(timerId.current);
