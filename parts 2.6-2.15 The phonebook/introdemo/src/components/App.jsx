@@ -35,12 +35,22 @@ const App = () => {
 
 
 
+  /**
+   * Handles notifications by setting the error state, logging the message, and updating the message state.
+   *
+   * @param {string} customErrorMessage - The custom error message to be displayed.
+   * @param {boolean} isErrorNotification - A flag indicating whether the notification is an error.
+   * @param {Object} [errorObject] - The error object containing additional error information.
+   * @param {Object} [errorObject.response] - The response object from the error.
+   * @param {Object} [errorObject.response.data] - The data object from the response.
+   * @param {string} [errorObject.response.data.error] - The error message from the response data.
+   */
   const notificationHandler = (customErrorMessage, isErrorNotification, errorObject)=>{
     setIsError(isErrorNotification)
     if(errorObject && errorObject.response && errorObject.response.data && errorObject.response.data.error){
       customErrorMessage = `${customErrorMessage} ${errorObject.response.data.error}`
     }
-    console.error(customErrorMessage)
+    (isErrorNotification)? console.error(customErrorMessage): console.log(customErrorMessage);
     setMessage(`${customErrorMessage}`)
   }
   /**
