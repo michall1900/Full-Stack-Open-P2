@@ -27,13 +27,12 @@ const Notification = ({message, setMessage, isError})=>{
           
     }
 
-
-    useEffect(()=>{
-        if(message){
+    useEffect(() => {
+        if (message) {
             setMessage(message);
-            setTimeout(()=> {setMessage(null)},5000);
+            const readingTime = Math.min(message.length * 100, 10000); // 100ms per character, max 10 seconds
+            setTimeout(() => { setMessage(null) }, readingTime);
         }
-
     }, [message])
 
     return(

@@ -15,13 +15,15 @@ import PersonItem from "./PersonItem";
  *
  * @returns {JSX.Element} The rendered component.
  */
-const Persons = ({ filterPersons, persons, setPersons, setDeletedPerson, setIsError, setMessage, setTriggerFetch, setIsLoading}) => (
+const Persons = ({ filterPersons, persons, setPersons, setDeletedPerson, setIsError, setMessage, setTriggerFetch, setIsLoading,
+  notificationHandler
+}) => (
   <>
     {filterPersons && filterPersons.length ? (
       <ul>
         {filterPersons.map((person) => (
           <PersonItem person={person} key={person.id} persons={persons} setPersons={setPersons} 
-            setDeletedPerson={setDeletedPerson} setIsError={setIsError} setMessage={setMessage}
+            setDeletedPerson={setDeletedPerson} notificationHandler={notificationHandler}
             setTriggerFetch={setTriggerFetch} setIsLoading={setIsLoading}/>
         ))}
       </ul>

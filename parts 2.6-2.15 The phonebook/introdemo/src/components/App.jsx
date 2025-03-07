@@ -33,12 +33,35 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const timerId = useRef(null);
 
+
+
+  /**
+   * Handles notifications by setting the error state, logging the message, and updating the message state.
+   *
+   * @param {string} customErrorMessage - The custom error message to be displayed.
+   * @param {boolean} isErrorNotification - A flag indicating whether the notification is an error.
+   * @param {Object} [errorObject] - The error object containing additional error information.
+   * @param {Object} [errorObject.response] - The response object from the error.
+   * @param {Object} [errorObject.response.data] - The data object from the response.
+   * @param {string} [errorObject.response.data.error] - The error message from the response data.
+   */
+  const notificationHandler = (customErrorMessage, isErrorNotification, errorObject)=>{
+    setIsError(isErrorNotification)
+    if(errorObject && errorObject.response && errorObject.response.data && errorObject.response.data.error){
+      customErrorMessage = `${customErrorMessage} ${errorObject.response.data.error}`
+    }
+    (isErrorNotification)? console.error(customErrorMessage): console.log(customErrorMessage);
+    setMessage(`${customErrorMessage}`)
+  }
   /**
    * Polls the server to get the list of persons and updates the state accordingly.
    * If there is an existing timer, it clears it before setting a new one.
    * On successful retrieval of persons, updates the persons state and triggers the filter.
    * On failure, sets an error message and updates the error state.
    * Sets a timeout to call itself again after 60 seconds.
+   * 
+   * @function polling
+   * @returns {void} 
    */
   const polling = () => {
     if(timerId.current)
@@ -47,18 +70,20 @@ const App = () => {
     personsServer
       .getAllPersons()
       .then(persons => {
+        if(!Array.isArray(persons))
+          throw new Error("The received data is not an array.")
         setPersons(persons);
-        setTrigerFilter(triggerFilter => !triggerFilter);
+        timerId.current = setTimeout(polling, 30000);
       })
       .catch(error => {
-        setMessage(`Can't get persons. Error: ${error}`);
-        setIsError(true);
+        notificationHandler("Can't get phonebook. Try again later.", true, error);
+        setPersons([])
+        timerId.current = null;
       })
       .finally(() => {
+        setTrigerFilter(triggerFilter => !triggerFilter);
         setIsLoading(false);
       })
-    
-    timerId.current = setTimeout(polling, 30000);
   }
 
   useEffect(() => {
@@ -74,12 +99,12 @@ const App = () => {
       <Filter persons={persons} setFilterPersons={setFilterPersons} filterPersons={filterPersons}
         deletedPerson={deletedPerson} addedPerson={addedPerson} editPerson={editPerson} triggerFilter={triggerFilter}/>
       <h2>Add a new</h2>
-      <PersonForm setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson={setEditPerson}
-        setIsError={setIsError} setMessage={setMessage} setTriggerFetch={setTriggerFetch} setIsLoading={setIsLoading}/>
+      <PersonForm notificationHandler={notificationHandler} setPersons={setPersons} persons={persons} setAddedPerson={setAddedPerson} setEditPerson={setEditPerson}
+        setTriggerFetch={setTriggerFetch} setIsLoading={setIsLoading}/>
       <h2>Numbers</h2>
       <Persons filterPersons={filterPersons} persons={persons} setPersons={setPersons} setDeletedPerson={setDeletedPerson}
         setIsError={setIsError} setMessage={setMessage} setTriggerFetch={setTriggerFetch}
-        setIsLoading={setIsLoading}/>
+        setIsLoading={setIsLoading} notificationHandler={notificationHandler}/>
     </div>
   );
 };
